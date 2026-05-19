@@ -64,7 +64,7 @@ export default function ProductDetailPage() {
                     >
                       −
                     </button>
-                    <span>{quantity}</span>
+                    <span className="text-gray-800">{quantity}</span>
                     <button
                       onClick={() => setQuantity(quantity + 1)}
                       className="text-gray-800 cursor-pointer"

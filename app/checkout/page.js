@@ -156,6 +156,9 @@ export default function Checkout() {
 
                 <div className="space-y-4">
                   <div className="relative">
+                    <label className="block text-sm text-gray-600 mb-2">
+                      Card Number
+                    </label>
                     <input
                       type="text"
                       placeholder="Card Number"
@@ -163,7 +166,7 @@ export default function Checkout() {
                       onChange={handleCardNumberChange}
                       className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
                     />
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                    <div className="absolute right-4 top-11 -translate-y-1/2">
                       <svg
                         className="w-5 h-5 text-gray-400"
                         fill="none"
@@ -181,27 +184,42 @@ export default function Checkout() {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm text-gray-600 mb-2">
+                        Expiration date (MM/YY)
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Expiration date (MM/YY)"
+                        value={expiry}
+                        onChange={handleExpiryChange}
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-gray-600 mb-2">
+                        Security Code
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Security Code"
+                        value={cvv}
+                        onChange={handleCvvChange}
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm text-gray-600 mb-2">
+                      Name On Card
+                    </label>
                     <input
                       type="text"
-                      placeholder="Expiration date (MM/YY)"
-                      value={expiry}
-                      onChange={handleExpiryChange}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Security Code"
-                      value={cvv}
-                      onChange={handleCvvChange}
+                      placeholder="Name On Card"
                       className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
                     />
                   </div>
-
-                  <input
-                    type="text"
-                    placeholder="Name On Card"
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
-                  />
 
                   <div className="flex items-center gap-3">
                     <input
