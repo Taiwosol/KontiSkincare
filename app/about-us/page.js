@@ -52,7 +52,7 @@ export default function AboutUs() {
             </p>
             <p className="text-sm text-gray-600">
               We invite you to explore our diverse range of products tailored
-              for every skin type. Whether you're looking for hydration,
+              for every skin type. Whether you&apos;re looking for hydration,
               anti-aging solutions, or a gentle cleanser, our expert team is
               dedicated to helping you find the perfect match. Experience the
               transformative power of nature and let your skin shine with
@@ -179,14 +179,14 @@ export default function AboutUs() {
                 accessible to everyone.
               </p>
               <p className="text-sm text-gray-600">
-                Elena's journey began with her own struggles with skin issues,
-                which fueled her desire to create solutions that truly work. She
-                believes in the power of education and regularly hosts workshops
-                to empower consumers with knowledge about skincare. Her
-                approachable demeanor and genuine passion resonate with both her
-                team and customers, fostering a culture of innovation and care
-                at Kontiskincare. As the brand continues to grow, Elena remains
-                dedicated to her mission of promoting healthy skin and
+                Elena&apos;s journey began with her own struggles with skin
+                issues, which fueled her desire to create solutions that truly
+                work. She believes in the power of education and regularly hosts
+                workshops to empower consumers with knowledge about skincare.
+                Her approachable demeanor and genuine passion resonate with both
+                her team and customers, fostering a culture of innovation and
+                care at Kontiskincare. As the brand continues to grow, Elena
+                remains dedicated to her mission of promoting healthy skin and
                 self-confidence, proving that beauty is not just skin deep.
               </p>
             </div>

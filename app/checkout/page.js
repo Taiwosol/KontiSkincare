@@ -124,50 +124,118 @@ export default function Checkout() {
               </form>
 
               <h2 className="text-2xl font-serif text-gray-800 mt-12 mb-6">
-                Payment Information
+                Payment
               </h2>
               <form className="space-y-6">
-                <div>
-                  <label className="block text-sm text-gray-600 mb-2">
-                    Card Number
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="1234 5678 9012 3456"
-                    value={cardNumber}
-                    onChange={handleCardNumberChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400"
-                  />
+                <div className="flex items-center justify-between px-4 py-3 border border-gray-800 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <Image src="/ellipse.png" alt="" width={20} height={20} />
+                    <span className="text-sm text-gray-800">Credit Card</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Image
+                      src="/logos_visa.png"
+                      alt="Visa"
+                      width={40}
+                      height={24}
+                    />
+                    <Image
+                      src="/logos_mastercard.png"
+                      alt="Mastercard"
+                      width={40}
+                      height={24}
+                    />
+                    <Image
+                      src="/logos_amex.png"
+                      alt="Amex"
+                      width={40}
+                      height={24}
+                    />
+                  </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm text-gray-600 mb-2">
-                      Expiry Date
-                    </label>
+
+                <div className="space-y-4">
+                  <div className="relative">
                     <input
                       type="text"
-                      placeholder="MM/YY"
+                      placeholder="Card Number"
+                      value={cardNumber}
+                      onChange={handleCardNumberChange}
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
+                    />
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                      <svg
+                        className="w-5 h-5 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <input
+                      type="text"
+                      placeholder="Expiration date (MM/YY)"
                       value={expiry}
                       onChange={handleExpiryChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400"
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
                     />
-                  </div>
-                  <div>
-                    <label className="block text-sm text-gray-600 mb-2">
-                      CVV
-                    </label>
                     <input
                       type="text"
-                      placeholder="123"
+                      placeholder="Security Code"
                       value={cvv}
                       onChange={handleCvvChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400"
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
                     />
                   </div>
+
+                  <input
+                    type="text"
+                    placeholder="Name On Card"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
+                  />
+
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      id="billing-same"
+                      className="rounded"
+                    />
+                    <label
+                      htmlFor="billing-same"
+                      className="text-sm text-gray-500"
+                    >
+                      Use shipping address as billing address
+                    </label>
+                  </div>
                 </div>
-                <button className="w-full bg-gray-900 text-white px-8 py-4 text-sm tracking-wider hover:bg-gray-800 transition-colors">
-                  Place Order
+
+                <button className="w-full bg-gray-900 text-white px-8 py-4 text-sm tracking-wider hover:bg-gray-800 transition-colors cursor-pointer">
+                  PAY NOW
                 </button>
+
+                <div className="flex flex-wrap gap-8 pt-8">
+                  <p className="text-sm text-gray-500 underline">
+                    Refund policy
+                  </p>
+                  <p className="text-sm text-gray-500 underline">
+                    Privacy Policy
+                  </p>
+                  <p className="text-sm text-gray-500 underline">
+                    Terms of Condition
+                  </p>
+                  <p className="text-sm text-gray-500 underline">
+                    Contact Information
+                  </p>
+                </div>
               </form>
             </div>
 
@@ -201,7 +269,7 @@ export default function Checkout() {
                             onClick={() =>
                               updateQuantity(item.id, item.quantity - 1)
                             }
-                            className="text-gray-800 text-sm"
+                            className="text-gray-800 text-sm cursor-pointer"
                           >
                             −
                           </button>
@@ -210,13 +278,13 @@ export default function Checkout() {
                             onClick={() =>
                               updateQuantity(item.id, item.quantity + 1)
                             }
-                            className="text-gray-800 text-sm"
+                            className="text-gray-800 text-sm cursor-pointer"
                           >
                             +
                           </button>
                           <button
                             onClick={() => removeFromCart(item.id)}
-                            className="text-red-600 text-xs underline ml-3"
+                            className="text-red-600 text-xs underline ml-3 cursor-pointer"
                           >
                             Remove
                           </button>

@@ -215,9 +215,6 @@ export default function Collection() {
             Explore a skincare brand that meets the needs of all skin types,
             featuring an exquisite range of products for both men and women.
           </p>
-          <Link href="#" className="text-gray-800 text-sm underline">
-            FIND THE NEAREST LOCATION
-          </Link>
         </div>
       </section>
 

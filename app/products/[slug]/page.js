@@ -60,14 +60,14 @@ export default function ProductDetailPage() {
                   <div className="flex items-center gap-4">
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="text-gray-800"
+                      className="text-gray-800 cursor-pointer"
                     >
                       −
                     </button>
                     <span>{quantity}</span>
                     <button
                       onClick={() => setQuantity(quantity + 1)}
-                      className="text-gray-800"
+                      className="text-gray-800 cursor-pointer"
                     >
                       +
                     </button>
@@ -76,20 +76,20 @@ export default function ProductDetailPage() {
               </div>
               <button
                 onClick={() => addToCart(product, quantity)}
-                className="w-full bg-gray-900 text-white py-3 text-sm tracking-wider hover:bg-gray-800 transition-colors mb-4"
+                className="w-full bg-gray-900 text-white py-3 text-sm tracking-wider hover:bg-gray-800 transition-colors mb-4 cursor-pointer"
               >
                 ADD TO CART - ${product.price * quantity}
               </button>
-              <button className="w-full text-center text-sm underline text-gray-800 mb-6">
+              {/* <button className="w-full text-center text-sm underline text-gray-800 mb-6">
                 FIND THE NEAREST CLINIC
-              </button>
+              </button> */}
               <div className="border-t border-gray-200 pt-4">
                 <button
                   onClick={() => setIsDetailsOpen(!isDetailsOpen)}
-                  className="w-full flex items-center justify-between text-left"
+                  className="w-full flex items-center justify-between text-left "
                 >
                   <span className="text-gray-600">Product Details</span>
-                  <span className="text-gray-800">
+                  <span className="text-gray-800 cursor-pointer">
                     {isDetailsOpen ? "−" : "+"}
                   </span>
                 </button>
@@ -185,7 +185,7 @@ export default function ProductDetailPage() {
               </h2>
               <p className="text-gray-600 text-sm mb-6">
                 Pair this product with complementary favourites to enhance your
-                results and build a routine tailored to your skin's needs.
+                results and build a routine tailored to your skin&apos;s needs.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-6">
