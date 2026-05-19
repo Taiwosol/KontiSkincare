@@ -40,7 +40,83 @@ export default function Checkout() {
         <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl font-serif text-gray-800 mb-8">Checkout</h1>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div>
+            <div className="lg:order-2 lg:pl-8">
+              <h2 className="text-2xl font-serif text-gray-800 mb-6">
+                Order Summary
+              </h2>
+              {cart.length === 0 ? (
+                <p className="text-gray-600">Your cart is empty.</p>
+              ) : (
+                <div className="space-y-6">
+                  {cart.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex gap-4 items-center pb-4 border-b"
+                    >
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        width={80}
+                        height={80}
+                        className="w-20 h-20 object-cover rounded"
+                      />
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-gray-800">
+                          {item.name}
+                        </h3>
+                        <p className="text-gray-600 text-sm">${item.price}</p>
+                        <div className="flex items-center gap-3 mt-1">
+                          <button
+                            onClick={() =>
+                              updateQuantity(item.id, item.quantity - 1)
+                            }
+                            className="text-gray-800 text-sm cursor-pointer"
+                          >
+                            −
+                          </button>
+                          <span className="text-sm">{item.quantity}</span>
+                          <button
+                            onClick={() =>
+                              updateQuantity(item.id, item.quantity + 1)
+                            }
+                            className="text-gray-800 text-sm cursor-pointer"
+                          >
+                            +
+                          </button>
+                          <button
+                            onClick={() => removeFromCart(item.id)}
+                            className="text-red-600 text-xs underline ml-3 cursor-pointer"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-gray-800 font-semibold text-sm">
+                          ${item.price * item.quantity}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                  <div className="pt-6 border-t">
+                    <div className="flex justify-between text-lg text-gray-800 mb-2">
+                      <span>Subtotal</span>
+                      <span>${getCartTotal()}</span>
+                    </div>
+                    <div className="flex justify-between text-gray-600 mb-2">
+                      <span>Shipping</span>
+                      <span>Free</span>
+                    </div>
+                    <div className="flex justify-between text-xl font-semibold text-gray-800 pt-4 border-t">
+                      <span>Total</span>
+                      <span>${getCartTotal()}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="lg:order-1">
               <h2 className="text-2xl font-serif text-gray-800 mb-6">
                 Shipping Information
               </h2>
@@ -255,82 +331,6 @@ export default function Checkout() {
                   </p>
                 </div>
               </form>
-            </div>
-
-            <div className="lg:pl-8">
-              <h2 className="text-2xl font-serif text-gray-800 mb-6">
-                Order Summary
-              </h2>
-              {cart.length === 0 ? (
-                <p className="text-gray-600">Your cart is empty.</p>
-              ) : (
-                <div className="space-y-6">
-                  {cart.map((item) => (
-                    <div
-                      key={item.id}
-                      className="flex gap-4 items-center pb-4 border-b"
-                    >
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        width={80}
-                        height={80}
-                        className="w-20 h-20 object-cover rounded"
-                      />
-                      <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-gray-800">
-                          {item.name}
-                        </h3>
-                        <p className="text-gray-600 text-sm">${item.price}</p>
-                        <div className="flex items-center gap-3 mt-1">
-                          <button
-                            onClick={() =>
-                              updateQuantity(item.id, item.quantity - 1)
-                            }
-                            className="text-gray-800 text-sm cursor-pointer"
-                          >
-                            −
-                          </button>
-                          <span className="text-sm">{item.quantity}</span>
-                          <button
-                            onClick={() =>
-                              updateQuantity(item.id, item.quantity + 1)
-                            }
-                            className="text-gray-800 text-sm cursor-pointer"
-                          >
-                            +
-                          </button>
-                          <button
-                            onClick={() => removeFromCart(item.id)}
-                            className="text-red-600 text-xs underline ml-3 cursor-pointer"
-                          >
-                            Remove
-                          </button>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-gray-800 font-semibold text-sm">
-                          ${item.price * item.quantity}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                  <div className="pt-6 border-t">
-                    <div className="flex justify-between text-lg text-gray-800 mb-2">
-                      <span>Subtotal</span>
-                      <span>${getCartTotal()}</span>
-                    </div>
-                    <div className="flex justify-between text-gray-600 mb-2">
-                      <span>Shipping</span>
-                      <span>Free</span>
-                    </div>
-                    <div className="flex justify-between text-xl font-semibold text-gray-800 pt-4 border-t">
-                      <span>Total</span>
-                      <span>${getCartTotal()}</span>
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </div>
