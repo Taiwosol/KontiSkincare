@@ -48,7 +48,7 @@ export default function ProductsPage() {
                 <span className="text-sm text-gray-800 block">
                   {product.name}
                 </span>
-                <span className="text-sm text-gray-600">${product.price}</span>
+                <span className="text-sm text-gray-600">₦{product.price}</span>
               </Link>
             ))}
           </div>
@@ -72,7 +72,7 @@ export default function ProductsPage() {
               <p className="text-white/80 text-xs mb-2">
                 {heroProduct.category}
               </p>
-              <p className="text-white text-sm">${heroProduct.price}</p>
+              <p className="text-white text-sm">₦{heroProduct.price}</p>
             </div>
             <Link
               href={`/products/${heroProduct.slug}`}
@@ -106,7 +106,7 @@ export default function ProductsPage() {
                 <span className="text-sm text-gray-800 block">
                   {product.name}
                 </span>
-                <span className="text-sm text-gray-600">${product.price}</span>
+                <span className="text-sm text-gray-600">₦{product.price}</span>
               </Link>
             ))}
           </div>

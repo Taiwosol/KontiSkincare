@@ -44,7 +44,7 @@ export default function Collection() {
                 />
               </div>
               <span className="text-sm text-gray-800 block">Soap Liquid</span>
-              <span className="text-sm text-gray-600">$13</span>
+              <span className="text-sm text-gray-600">₦10000</span>
             </div>
           </div>
         </div>
@@ -64,7 +64,7 @@ export default function Collection() {
                 />
               </div>
               <span className="text-sm text-gray-800 block">Liquid Lotion</span>
-              <span className="text-sm text-gray-600">$28</span>
+              <span className="text-sm text-gray-600">₦25000</span>
             </div>
             <div>
               <div className="aspect-square overflow-hidden rounded-lg mb-3">
@@ -77,7 +77,7 @@ export default function Collection() {
                 />
               </div>
               <span className="text-sm text-gray-800 block">Sunscreen</span>
-              <span className="text-sm text-gray-600">$28</span>
+              <span className="text-sm text-gray-600">₦20000</span>
             </div>
             <div>
               <div className="aspect-square overflow-hidden rounded-lg mb-3">
@@ -90,7 +90,7 @@ export default function Collection() {
                 />
               </div>
               <span className="text-sm text-gray-800 block">Blue Solution</span>
-              <span className="text-sm text-gray-600">$28</span>
+              <span className="text-sm text-gray-600">₦20000</span>
             </div>
             <div>
               <div className="aspect-square overflow-hidden rounded-lg mb-3">
@@ -103,7 +103,7 @@ export default function Collection() {
                 />
               </div>
               <span className="text-sm text-gray-800 block">Face White</span>
-              <span className="text-sm text-gray-600">$28</span>
+              <span className="text-sm text-gray-600">₦30000</span>
             </div>
           </div>
 
@@ -121,7 +121,7 @@ export default function Collection() {
               <span className="text-sm text-gray-800 block">
                 Cream Cleanser
               </span>
-              <span className="text-sm text-gray-600">$23</span>
+              <span className="text-sm text-gray-600">₦20000</span>
             </div>
             <div className="lg:col-span-3">
               <div className="aspect-square overflow-hidden rounded-lg">
@@ -152,7 +152,7 @@ export default function Collection() {
                 />
               </div>
               <span className="text-sm text-gray-800 block">Brown Cream</span>
-              <span className="text-sm text-gray-600">$43</span>
+              <span className="text-sm text-gray-600">₦40000</span>
             </div>
             <div>
               <div className="aspect-[3/2] overflow-hidden rounded-lg mb-3">
@@ -165,7 +165,7 @@ export default function Collection() {
                 />
               </div>
               <span className="text-sm text-gray-800 block">Serum Phoenix</span>
-              <span className="text-sm text-gray-600">$123</span>
+              <span className="text-sm text-gray-600">₦100000</span>
             </div>
             <div>
               <div className="aspect-[3/2] overflow-hidden rounded-lg mb-3">
@@ -178,7 +178,7 @@ export default function Collection() {
                 />
               </div>
               <span className="text-sm text-gray-800 block">Layers</span>
-              <span className="text-sm text-gray-600">$28</span>
+              <span className="text-sm text-gray-600">₦20000</span>
             </div>
             <div>
               <div className="aspect-[3/2] overflow-hidden rounded-lg mb-3">
@@ -191,7 +191,7 @@ export default function Collection() {
                 />
               </div>
               <span className="text-sm text-gray-800 block">Vase Cream</span>
-              <span className="text-sm text-gray-600">$28</span>
+              <span className="text-sm text-gray-600">₦20000</span>
             </div>
           </div>
         </div>

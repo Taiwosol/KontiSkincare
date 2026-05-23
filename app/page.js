@@ -112,20 +112,20 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-2 gap-6">
               {[
-                { name: "Fiori Wash", price: "$38", image: "/fora-wash.png" },
+                { name: "Fiori Wash", price: "₦30000", image: "/fora-wash.png" },
                 {
                   name: "Barus Cream",
-                  price: "$28",
+                  price: "₦20000",
                   image: "/barus-cream.png",
                 },
-                { name: "Gege Tone", price: "$22", image: "/gege-tone.png" },
+                { name: "Gege Tone", price: "₦18000", image: "/gege-tone.png" },
                 {
                   name: "Merlin Sunscreen",
-                  price: "$14",
+                  price: "₦12000",
                   image: "/merlin-sunscreen.png",
                 },
-                { name: "Nexar", price: "$12", image: "/nexar.png" },
-                { name: "Jectar", price: "$10", image: "/jectar.png" },
+                { name: "Nexar", price: "₦10000", image: "/nexar.png" },
+                { name: "Jectar", price: "₦8000", image: "/jectar.png" },
               ].map((product, index) => (
                 <div key={index} className="flex flex-col">
                   <div className="aspect-square mb-3">

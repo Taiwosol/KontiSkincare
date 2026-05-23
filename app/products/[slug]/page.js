@@ -46,7 +46,7 @@ export default function ProductDetailPage() {
                 {product.name}
               </h1>
               <p className="text-gray-600 text-sm mb-6">
-                150 ml/5.07 fl.oz - ${product.price}
+                150 ml/5.07 fl.oz - ₦{product.price}
               </p>
               <p className="text-gray-600 mb-6">{product.description}</p>
               <ul className="text-gray-600 text-sm mb-8 space-y-1">
@@ -78,7 +78,7 @@ export default function ProductDetailPage() {
                 onClick={() => addToCart(product, quantity)}
                 className="w-full bg-gray-900 text-white py-3 text-sm tracking-wider hover:bg-gray-800 transition-colors mb-4 cursor-pointer"
               >
-                ADD TO CART - ${product.price * quantity}
+                ADD TO CART - ₦{product.price * quantity}
               </button>
               {/* <button className="w-full text-center text-sm underline text-gray-800 mb-6">
                 FIND THE NEAREST CLINIC
@@ -174,7 +174,7 @@ export default function ProductDetailPage() {
                   />
                 </div>
                 <span className="text-sm text-gray-800">{p.name}</span>
-                <span className="text-sm text-gray-600">${p.price}</span>
+                <span className="text-sm text-gray-600">₦{p.price}</span>
               </div>
             ))}
           </div>
@@ -201,7 +201,7 @@ export default function ProductDetailPage() {
                     />
                   </div>
                   <span className="text-sm text-gray-800">{p.name}</span>
-                  <span className="text-sm text-gray-600">${p.price}</span>
+                  <span className="text-sm text-gray-600">₦{p.price}</span>
                 </div>
               ))}
             </div>

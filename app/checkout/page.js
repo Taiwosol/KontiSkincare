@@ -8,29 +8,96 @@ import { useState } from "react";
 
 export default function Checkout() {
   const { cart, removeFromCart, updateQuantity, getCartTotal } = useCart();
-  const [cardNumber, setCardNumber] = useState("");
-  const [expiry, setExpiry] = useState("");
-  const [cvv, setCvv] = useState("");
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    address: "",
+    apartment: "",
+    city: "",
+    postalCode: "",
+    phone: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleCardNumberChange = (e) => {
-    let value = e.target.value.replace(/\D/g, "");
-    if (value.length > 16) value = value.slice(0, 16);
-    value = value.replace(/(.{4})/g, "$1 ").trim();
-    setCardNumber(value);
-  };
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    let processedValue = type === "checkbox" ? checked : value;
+    setError("");
 
-  const handleExpiryChange = (e) => {
-    let value = e.target.value.replace(/\D/g, "");
-    if (value.length >= 2) {
-      value = value.slice(0, 2) + "/" + value.slice(2, 4);
+    // Restrict letters only fields
+    const letterOnlyFields = ["firstName", "lastName", "address", "city"];
+    const noLetterFields = ["postalCode", "phone"];
+
+    if (letterOnlyFields.includes(name)) {
+      processedValue = value.replace(/[0-9]/g, "");
     }
-    setExpiry(value);
+
+    if (noLetterFields.includes(name)) {
+      processedValue = value.replace(/[a-zA-Z]/g, "");
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: processedValue,
+    }));
   };
 
-  const handleCvvChange = (e) => {
-    let value = e.target.value.replace(/\D/g, "");
-    if (value.length > 3) value = value.slice(0, 3);
-    setCvv(value);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (cart.length === 0) {
+      setError(
+        "Your cart is empty, please add some products before proceeding to checkout.",
+      );
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const orderData = {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: formData.email,
+        address: formData.address,
+        apartment: formData.apartment,
+        city: formData.city,
+        postal_code: formData.postalCode,
+        phone: formData.phone,
+        items: JSON.stringify(cart),
+        total: getCartTotal(),
+        status: "pending",
+      };
+
+      console.log("Submitting order data:", orderData);
+
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      console.log("API Response status:", response.status);
+      const result = await response.json();
+      console.log("API Response data:", result);
+
+      if (result.error) {
+        throw new Error(result.error);
+      }
+
+      // Redirect to Paystack checkout page
+      window.location.href = result.paystack.authorization_url;
+    } catch (error) {
+      console.error("Error processing order:", error);
+      alert("Error processing order: " + error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -61,10 +128,10 @@ export default function Checkout() {
                         className="w-20 h-20 object-cover rounded"
                       />
                       <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-gray-800">
+                        <h3 className="text-lg font-semibold text-gray-600">
                           {item.name}
                         </h3>
-                        <p className="text-gray-600 text-sm">${item.price}</p>
+                        <p className="text-gray-800 text-sm">₦{item.price}</p>
                         <div className="flex items-center gap-3 mt-1">
                           <button
                             onClick={() =>
@@ -74,7 +141,9 @@ export default function Checkout() {
                           >
                             −
                           </button>
-                          <span className="text-sm">{item.quantity}</span>
+                          <span className="text-sm text-gray-800">
+                            {item.quantity}
+                          </span>
                           <button
                             onClick={() =>
                               updateQuantity(item.id, item.quantity + 1)
@@ -93,7 +162,7 @@ export default function Checkout() {
                       </div>
                       <div className="text-right">
                         <p className="text-gray-800 font-semibold text-sm">
-                          ${item.price * item.quantity}
+                          ₦{item.price * item.quantity}
                         </p>
                       </div>
                     </div>
@@ -101,7 +170,7 @@ export default function Checkout() {
                   <div className="pt-6 border-t">
                     <div className="flex justify-between text-lg text-gray-800 mb-2">
                       <span>Subtotal</span>
-                      <span>${getCartTotal()}</span>
+                      <span>₦{getCartTotal()}</span>
                     </div>
                     <div className="flex justify-between text-gray-600 mb-2">
                       <span>Shipping</span>
@@ -109,7 +178,7 @@ export default function Checkout() {
                     </div>
                     <div className="flex justify-between text-xl font-semibold text-gray-800 pt-4 border-t">
                       <span>Total</span>
-                      <span>${getCartTotal()}</span>
+                      <span>₦{getCartTotal()}</span>
                     </div>
                   </div>
                 </div>
@@ -120,7 +189,12 @@ export default function Checkout() {
               <h2 className="text-2xl font-serif text-gray-800 mb-6">
                 Shipping Information
               </h2>
-              <form className="space-y-6">
+              <form className="space-y-6" onSubmit={handleSubmit}>
+                {error && (
+                  <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+                    {error}
+                  </div>
+                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm text-gray-600 mb-2">
@@ -128,7 +202,11 @@ export default function Checkout() {
                     </label>
                     <input
                       type="text"
-                      className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-800"
+                      required
                     />
                   </div>
                   <div>
@@ -137,7 +215,11 @@ export default function Checkout() {
                     </label>
                     <input
                       type="text"
-                      className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-800"
+                      required
                     />
                   </div>
                 </div>
@@ -147,7 +229,11 @@ export default function Checkout() {
                   </label>
                   <input
                     type="email"
-                    className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-800"
+                    required
                   />
                 </div>
                 <div>
@@ -156,7 +242,11 @@ export default function Checkout() {
                   </label>
                   <input
                     type="text"
-                    className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-800"
+                    required
                   />
                 </div>
                 <div>
@@ -165,7 +255,10 @@ export default function Checkout() {
                   </label>
                   <input
                     type="text"
-                    className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400"
+                    name="apartment"
+                    value={formData.apartment}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-800"
                   />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -175,7 +268,11 @@ export default function Checkout() {
                     </label>
                     <input
                       type="text"
-                      className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-800"
+                      required
                     />
                   </div>
                   <div>
@@ -184,7 +281,11 @@ export default function Checkout() {
                     </label>
                     <input
                       type="text"
-                      className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400"
+                      name="postalCode"
+                      value={formData.postalCode}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-800"
+                      required
                     />
                   </div>
                 </div>
@@ -194,126 +295,20 @@ export default function Checkout() {
                   </label>
                   <input
                     type="tel"
-                    className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-800"
+                    required
                   />
                 </div>
-              </form>
 
-              <h2 className="text-2xl font-serif text-gray-800 mt-12 mb-6">
-                Payment
-              </h2>
-              <form className="space-y-6">
-                <div className="flex items-center justify-between px-4 py-3 border border-gray-800 rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <Image src="/ellipse.png" alt="" width={20} height={20} />
-                    <span className="text-sm text-gray-800">Credit Card</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Image
-                      src="/logos_visa.png"
-                      alt="Visa"
-                      width={40}
-                      height={24}
-                    />
-                    <Image
-                      src="/logos_mastercard.png"
-                      alt="Mastercard"
-                      width={40}
-                      height={24}
-                    />
-                    <Image
-                      src="/logos_amex.png"
-                      alt="Amex"
-                      width={40}
-                      height={24}
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="relative">
-                    <label className="block text-sm text-gray-600 mb-2">
-                      Card Number
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Card Number"
-                      value={cardNumber}
-                      onChange={handleCardNumberChange}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
-                    />
-                    <div className="absolute right-4 top-11 -translate-y-1/2">
-                      <svg
-                        className="w-5 h-5 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm text-gray-600 mb-2">
-                        Expiration date (MM/YY)
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="Expiration date (MM/YY)"
-                        value={expiry}
-                        onChange={handleExpiryChange}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm text-gray-600 mb-2">
-                        Security Code
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="Security Code"
-                        value={cvv}
-                        onChange={handleCvvChange}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm text-gray-600 mb-2">
-                      Name On Card
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Name On Card"
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
-                    />
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <input
-                      type="checkbox"
-                      id="billing-same"
-                      className="rounded"
-                    />
-                    <label
-                      htmlFor="billing-same"
-                      className="text-sm text-gray-500"
-                    >
-                      Use shipping address as billing address
-                    </label>
-                  </div>
-                </div>
-
-                <button className="w-full bg-gray-900 text-white px-8 py-4 text-sm tracking-wider hover:bg-gray-800 transition-colors cursor-pointer">
-                  PAY NOW
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-gray-900 text-white px-8 py-4 text-sm tracking-wider hover:bg-gray-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? "PROCESSING..." : "PAY NOW"}
                 </button>
 
                 <div className="flex flex-wrap gap-8 pt-8">
